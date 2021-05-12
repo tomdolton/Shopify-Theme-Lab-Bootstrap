@@ -26,8 +26,7 @@
 
   <body id="{{ page_title | handle }}" class="template-{{ request.page_type | handle }}">
     <div {% unless request.page_type == 'captcha' %}id="app"{% endunless %}>
-      <!-- vue examples -->
-      {% comment %} {% render 'vue-examples' %} {% endcomment %}
+    
       <h1>Test</h1>
       <button class="btn btn-primary">Button</button>
 
