@@ -1,0 +1,45 @@
+const path = require('path')
+const ProgressPlugin = require('progress-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
+module.exports = {
+  stats: 'minimal',
+  entry: path.resolve(__dirname, '../../src/main.js'),
+  output: {
+    path: path.resolve(__dirname, '../../shopify/assets/'),
+    filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: ['*', '.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, '../../src/'),
+      '@shopify': path.resolve(__dirname, '../../shopify/')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new ProgressPlugin(),
+    /**
+     * don't clean files with the 'static' keyword in their filename
+     * docs: https://github.com/johnagan/clean-webpack-plugin
+     */
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['**/*', '!*static*']
+    }),
+  ]
+}
